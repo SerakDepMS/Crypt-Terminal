@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypt Terminal v5.1 - Enhanced</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+
+    <div id="login-screen">
+        <div class="login-container">
+            <h1 class="login-title" data-text="CRYPT SMS">CRYPT SMS</h1>
+            <p class="login-subtitle">[ ACCESO RESTRINGIDO - PROTOCOLO DE SEGURIDAD ACTIVO ]</p>
+            <button id="enter-btn">INGRESAR AL SISTEMA SMS</button>
+            <div id="boot-terminal"></div>
+        </div>
+    </div>
+
+
+    <div id="main-system">
+        <div class="terminal-container">
+            <header class="terminal-header">
+                <div class="header-dots">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <h1 class="glitch" data-text="CRYPT v5.1">CRYPT v5.1</h1>
+                <p class="subtitle">[_] Enhanced Edition - Sistema de Cifrado Mejorado [_]</p>
+            </header>
+
+            <div class="top-controls">
+                <div class="status-led">
+                    <span class="led"></span> SYSTEM ACTIVE — v5.1
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                    <button class="sound-toggle" id="soundToggle" title="Toggle sonido">🔇 SONIDO OFF</button>
+                    <button class="btn" id="exportBtn" title="Exportar resultado">⬇ EXPORTAR</button>
+                </div>
+            </div>
+
+            <main>
+                <section class="io-section">
+                    <div class="io-header">
+                        <label for="inputText" class="terminal-label">INPUT / TEXTO PLANO</label>
+                        <div class="char-stats" id="inputStats">
+                            <span id="inChars">0 chars</span>
+                            <span id="inWords">0 words</span>
+                        </div>
+                    </div>
+                    <div class="detect-hint" id="detectHint">Parece texto cifrado — intenta DESCIFRAR</div>
+                    <textarea id="inputText" placeholder="Escribe aquí el texto a cifrar o descifrar..."></textarea>
+                </section>
+
+                <div class="progress-bar-wrap" id="progressWrap">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+
+                <div class="action-bar">
+                    <button id="encryptBtn" class="btn btn-primary">▲ CIFRAR</button>
+                    <button id="decryptBtn" class="btn btn-primary">▼ DESCIFRAR</button>
+                    <button id="copyInputBtn" class="btn">▣ COPIAR INPUT</button>
+                    <button id="clearBtn" class="btn">⌧ LIMPIAR</button>
+                </div>
+
+                <div class="swap-bar">
+                    <div class="swap-divider"></div>
+                    <button class="swap-btn" id="swapBtn" title="Intercambiar input y output">⇅ SWAP</button>
+                    <div class="swap-divider"></div>
+                </div>
+
+                <section class="io-section">
+                    <div class="io-header">
+                        <label for="outputText" class="terminal-label">OUTPUT / RESULTADO</label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <div class="char-stats" id="outputStats">
+                                <span id="outChars">0 chars</span>
+                            </div>
+                            <button id="copyBtn" class="btn" style="min-height:30px;padding:4px 12px;font-size:0.7rem;">▣ COPIAR</button>
+                        </div>
+                    </div>
+                    <textarea id="outputText" placeholder="Aquí aparecerá el resultado..." readonly></textarea>
+                </section>
+
+
+                <section class="collapsible-section">
+                    <h2 class="section-title open" id="historyToggle">
+                        <span class="arrow">▶</span> HISTORIAL DE OPERACIONES
+                        <span id="historyBadge" style="font-size:0.65rem;color:var(--yellow);margin-left:auto;"></span>
+                    </h2>
+                    <div class="collapse-body expanded" id="historyBody">
+                        <div class="history-list" id="historyList">
+                            <div class="history-empty">[ SIN OPERACIONES RECIENTES ]</div>
+                        </div>
+                        <button class="btn" id="clearHistoryBtn" style="margin-top:10px;font-size:0.65rem;padding:6px 14px;min-height:32px;">⌧ BORRAR HISTORIAL</button>
+                    </div>
+                </section>
+
+                <section class="collapsible-section">
+                    <h2 class="section-title" id="shortcutsToggle">
+                        <span class="arrow">▶</span> ATAJOS DE TECLADO
+                    </h2>
+                    <div class="collapse-body" id="shortcutsBody">
+                        <div class="shortcuts-grid">
+                            <div class="shortcut-item"><span class="shortcut-key">Ctrl + Enter</span><span class="shortcut-desc">Cifrar texto</span></div>
+                            <div class="shortcut-item"><span class="shortcut-key">Ctrl + Shift + D</span><span class="shortcut-desc">Descifrar texto</span></div>
+                            <div class="shortcut-item"><span class="shortcut-key">Ctrl + Shift + C</span><span class="shortcut-desc">Copiar output</span></div>
+                            <div class="shortcut-item"><span class="shortcut-key">Ctrl + Shift + S</span><span class="shortcut-desc">Swap input/output</span></div>
+                            <div class="shortcut-item"><span class="shortcut-key">Ctrl + Shift + X</span><span class="shortcut-desc">Limpiar todo</span></div>
+                            <div class="shortcut-item"><span class="shortcut-key">Ctrl + Shift + E</span><span class="shortcut-desc">Exportar resultado</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="collapsible-section">
+                    <h2 class="section-title open" id="mappingToggle">
+                        <span class="arrow">▶</span> MAPEO FIJO
+                    </h2>
+                    <div class="collapse-body expanded" id="mappingBody">
+                        <div class="mapping-inner" id="mappingInner"></div>
+                        <p style="color:#0a3d0a;font-size:0.7rem;margin-top:10px;">ⓘ Valores predefinidos. Coma → = | Punto → x</p>
+                    </div>
+                </section>
+            </main>
+
+            <footer>
+                <p>[ CRYPT TERMINAL v5.1 - ENHANCED EDITION ]</p>
+            </footer>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
